@@ -27,6 +27,17 @@ const authUser = asyncHandler(async (req, res) => {
 
 const registerUser = asyncHandler(async (req, res) => {
 	const { username, firstname, lastname, email, password } = req.body;
+	// Regular expression for password validation
+	const passwordRegex =
+		/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+	// Check if password meets criteria
+	if (!passwordRegex.test(password)) {
+		res.status(400);
+		throw new Error(
+			'Password must be at least 8 characters long and contain letters, numbers, and special characters.'
+		);
+	}
 
 	const userExists = await User.findOne({ email });
 	if (userExists) {
