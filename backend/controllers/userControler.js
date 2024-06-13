@@ -26,7 +26,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 
 const registerUser = asyncHandler(async (req, res) => {
-	const { name, email, password } = req.body;
+	const { username, firstname, lastname, email, password } = req.body;
 
 	const userExists = await User.findOne({ email });
 	if (userExists) {
@@ -34,7 +34,9 @@ const registerUser = asyncHandler(async (req, res) => {
 		throw new Error('user already exists');
 	}
 	const user = await User.create({
-		name,
+		username,
+		firstname,
+		lastname,
 		email,
 		password,
 	});
@@ -42,7 +44,9 @@ const registerUser = asyncHandler(async (req, res) => {
 		generateToken(res, user._id);
 		res.status(201).json({
 			_id: user._id,
-			name: user.name,
+			username: user.username,
+			firstname: user.firstname,
+			lastname: user.lastname,
 			email: user.email,
 		});
 	} else {
@@ -69,7 +73,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	// console.log(req.user);
 	const user = {
 		_id: req.user._id,
-		name: req.user.name,
+		username: req.user.username,
+		firstname: req.user.firstname,
+		lastname: req.user.lastname,
 		email: req.user.email,
 	};
 	res.status(200).json(user);
@@ -81,7 +87,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id);
 	if (user) {
-		user.name = req.body.name || user.name;
+		user.username = req.body.username || user.username;
+		user.firstname = req.body.firstname || user.firstname;
+		user.lastname = req.body.lastname || user.lastname;
 		user.email = req.body.email || user.email;
 		if (req.body.password) {
 			user.password = req.body.password;
@@ -89,7 +97,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		const updatedUser = await user.save();
 		res.status(200).json({
 			_id: updatedUser._id,
-			name: updatedUser.name,
+			username: updatedUser.username,
+			firstname: updatedUser.firstname,
+			lastname: updatedUser.lastname,
 			email: updatedUser.email,
 		});
 	} else {
