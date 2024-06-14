@@ -39,6 +39,14 @@ const registerUser = asyncHandler(async (req, res) => {
 		);
 	}
 
+	// Check if username already exists
+	const existingUsername = await User.findOne({ username });
+	if (existingUsername) {
+		res.status(400);
+		throw new Error('Username is already taken');
+	}
+	// check for the email as well
+
 	const userExists = await User.findOne({ email });
 	if (userExists) {
 		res.status(400);
