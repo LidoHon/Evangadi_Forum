@@ -6,20 +6,17 @@ import {
 	updateQuestion,
 	deleteQuestion,
 } from '../controllers/questionController.js';
+
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/askquestion', createQuestion);
-// router
-// 	.route('/question')
-// 	.post(protect, createQuestion) // Create a new question
-// 	.get(getQuestions); // Get all questions
-
-// router
-// 	.route('/question:id')
-// 	.get(getQuestionById) // Get a single question by ID
-// 	.put(protect, updateQuestion) // Update a question
-// 	.delete(protect, deleteQuestion); // Delete a question
+router.post('/askquestion', protect, createQuestion);
+router.get('/', getQuestions);
+router
+	.route('/:id')
+	.get(protect, getQuestionById)
+	.put(protect, updateQuestion)
+	.delete(protect, deleteQuestion);
 
 export default router;

@@ -13,9 +13,12 @@ const questionSchema = Schema(
 			required: true,
 		},
 		user: {
-			type: Schema.Types.ObjectId,
-			ref: 'User',
-			required: true,
+			_id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'User',
+				required: true,
+			},
+			username: { type: String, required: true },
 		},
 	},
 	{

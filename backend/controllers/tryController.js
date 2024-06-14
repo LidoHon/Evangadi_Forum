@@ -119,3 +119,18 @@ export {
 	updateQuestion,
 	deleteQuestion,
 };
+
+// router
+// 	.route('/question')
+// 	.post(protect, createQuestion) // Create a new question
+// 	.get(getQuestions); // Get all questions
+
+// router
+// 	.route('/question:id')
+// 	.get(getQuestionById) // Get a single question by ID
+// 	.put(protect, updateQuestion) // Update a question
+// 	.delete(protect, deleteQuestion); // Delete a question
+
+// router.get('/:id', getQuestionById);
+// router.put('/:id', updateQuestion);
+// router.delete('/:id', deleteQuestion);
