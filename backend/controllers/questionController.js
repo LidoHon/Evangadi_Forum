@@ -92,7 +92,34 @@ const updateQuestion = asyncHandler(async (req, res) => {
 // @access  Private
 
 const deleteQuestion = asyncHandler(async (req, res) => {
-	res.status(200).json({ message: 'question deleted' });
+	try {
+		const question = await Question.findById(req.params.id);
+
+		if (!question) {
+			res.status(404).json({ message: 'Question not found' });
+		}
+		if (question.user._id.toString() !== req.user._id.toString()) {
+			res.status(401).json({
+				message: 'Sorry! your are not authorized to delete this question',
+			});
+			return;
+		}
+		await question.deleteOne(); // Corrected to properly invoke remove()
+
+		// Optionally check if question is still in database
+		const deletedQuestion = await Question.findById(req.params.id);
+		if (deletedQuestion) {
+			return res
+				.status(500)
+				.json({ message: 'Failed to delete question from database' });
+		}
+
+		return res.json({ message: 'Question removed successfully' });
+	} catch (error) {
+		res
+			.status(400)
+			.json({ message: 'failed to delete question', error: error.message });
+	}
 });
 
 export {
