@@ -12,7 +12,7 @@ import { protect } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 router.post('/askquestion', protect, createQuestion);
-router.get('/', getQuestions);
+router.get('/', protect, getQuestions);
 router
 	.route('/:id')
 	.get(protect, getQuestionById)

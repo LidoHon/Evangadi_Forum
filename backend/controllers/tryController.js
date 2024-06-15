@@ -1,138 +1,188 @@
 import asyncHandler from 'express-async-handler';
-import Question from '../models/questionModel.js';
+import Answer from '../models/answerModel.js';
 
-// @desc    Create a new question
-// @route   POST /api/questions
-// @access  Private{ people should login to access this route}
-const createQuestion = asyncHandler(async (req, res) => {
-	const { title, description } = req.body;
+// @desc    Create a new answer
+// @route   POST /api/answers
+// @access  Private
+const createAnswer = asyncHandler(async (req, res) => {
+	const { content, questionId } = req.body;
 
-	try {
-		const question = await Question.create({
-			title,
-			description,
+	const answer = await Answer.create({
+		content,
+		question: questionId,
+		user: {
+			_id: req.user._id,
+			username: req.user.username,
+		},
+	});
+
+	res.status(201).json(answer);
+});
+
+// @desc    Get answers for a specific question
+// @route   GET /api/answers/:questionId
+// @access  Public
+const getAnswersByQuestionId = asyncHandler(async (req, res) => {
+	const { questionId } = req.params;
+
+	const answers = await Answer.find({ question: questionId });
+
+	res.json(answers);
+});
+
+// @desc    Update an answer
+// @route   PUT /api/answers/:id
+// @access  Private
+const updateAnswer = asyncHandler(async (req, res) => {
+	const { content } = req.body;
+	const { id } = req.params;
+
+	const answer = await Answer.findById(id);
+
+	if (!answer) {
+		res.status(404);
+		throw new Error('Answer not found');
+	}
+
+	// Check if the user updating is the owner of the answer
+	if (answer.user._id.toString() !== req.user._id.toString()) {
+		res.status(401).json({ message: 'Not authorized to update this answer' });
+		return;
+	}
+
+	answer.content = content;
+
+	const updatedAnswer = await answer.save();
+	res.json(updatedAnswer);
+});
+
+// @desc    Delete an answer
+// @route   DELETE /api/answers/:id
+// @access  Private
+const deleteAnswer = asyncHandler(async (req, res) => {
+	const { id } = req.params;
+
+	const answer = await Answer.findById(id);
+
+	if (!answer) {
+		res.status(404);
+		throw new Error('Answer not found');
+	}
+
+	// Check if the user deleting is the owner of the answer
+	if (answer.user._id.toString() !== req.user._id.toString()) {
+		res.status(401).json({ message: 'Not authorized to delete this answer' });
+		return;
+	}
+
+	await answer.remove();
+	res.json({ message: 'Answer removed' });
+});
+
+export { createAnswer, getAnswersByQuestionId, updateAnswer, deleteAnswer };
+
+import express from 'express';
+import asyncHandler from 'express-async-handler';
+import Answer from '../models/Answer.js';
+import Question from '../models/Question.js';
+import { protect } from '../middleware/authMiddleware.js';
+
+const router = express.Router({ mergeParams: true });
+
+// Create an answer
+router.post(
+	'/',
+	protect,
+	asyncHandler(async (req, res) => {
+		const { content } = req.body;
+		const questionId = req.params.questionId;
+
+		const question = await Question.findById(questionId);
+
+		if (!question) {
+			res.status(404);
+			throw new Error('Question not found');
+		}
+
+		const answer = new Answer({
+			content,
 			user: req.user._id,
+			question: questionId,
 		});
-		res.sendStatus(201).json(question);
-	} catch (error) {
-		res
-			.status(400)
-			.json({ message: 'Failed to create question', error: error.message });
-	}
-});
 
-// @desc    Get all questions
-// @route   GET /api/questions
-// @access  Public
+		const createdAnswer = await answer.save();
+		res.status(201).json(createdAnswer);
+	})
+);
 
-const getQuestions = asyncHandler(async (req, res) => {
-	const questions = await Question.find({}).populate('user', 'username');
+// Get answers for a specific question
+router.get(
+	'/',
+	asyncHandler(async (req, res) => {
+		const questionId = req.params.questionId;
 
-	res.json(questions);
-});
+		const answers = await Answer.find({ question: questionId }).populate(
+			'user',
+			'name'
+		);
 
-// @desc    Get single question by ID
-// @route   GET /api/questions/:id
-// @access  Public
+		res.json(answers);
+	})
+);
 
-const getQuestionById = asyncHandler(async (req, res) => {
-	const question = await Question.findById(req.params.id).populate(
-		'user',
-		'username'
-	);
+// Update an answer
+router.put(
+	'/:id',
+	protect,
+	asyncHandler(async (req, res) => {
+		const { content } = req.body;
+		const answer = await Answer.findById(req.params.id);
 
-	if (question) {
-		res.json(question);
-	} else {
-		res.status(404).json({ message: 'Question not found' });
-	}
-});
-// @desc    Update a question
-// @route   PUT /api/questions/:id
-// @access  Private
-
-const updateQuestion = asyncHandler(async (req, res) => {
-	const { title, description } = req.body;
-
-	try {
-		let question = await Question.findById(req.params.id);
-
-		if (!question) {
-			res.status(404).json({ message: 'Question not found' });
-			return;
+		if (!answer) {
+			res.status(404);
+			throw new Error('Answer not found');
 		}
 
-		// Check if the user updating is the owner of the question
-		if (question.user.toString() !== req.user._id.toString()) {
-			res
-				.status(401)
-				.json({ message: 'Not authorized to update this question' });
-			return;
+		if (answer.user.toString() !== req.user._id.toString()) {
+			res.status(401);
+			throw new Error('Not authorized to update this answer');
 		}
 
-		question.title = title || question.title;
-		question.description = description || question.description;
+		answer.content = content || answer.content;
+		const updatedAnswer = await answer.save();
+		res.json(updatedAnswer);
+	})
+);
 
-		const updatedQuestion = await question.save();
-		res.json(updatedQuestion);
-	} catch (error) {
-		res
-			.status(400)
-			.json({ message: 'Failed to update question', error: error.message });
-	}
-});
+// Delete an answer
+router.delete(
+	'/:id',
+	protect,
+	asyncHandler(async (req, res) => {
+		const answer = await Answer.findById(req.params.id);
 
-// @desc    Delete a question
-// @route   DELETE /api/questions/:id
-// @access  Private
-
-const deleteQuestion = asyncHandler(async (req, res) => {
-	try {
-		const question = await Question.findById(req.params.id);
-
-		if (!question) {
-			res.status(404).json({ message: 'Question not found' });
-			return;
+		if (!answer) {
+			res.status(404);
+			throw new Error('Answer not found');
 		}
 
-		// Check if the user deleting is the owner of the question
-		if (question.user.toString() !== req.user._id.toString()) {
-			res
-				.status(401)
-				.json({ message: 'Not authorized to delete this question' });
-			return;
+		if (answer.user.toString() !== req.user._id.toString()) {
+			res.status(401);
+			throw new Error('Not authorized to delete this answer');
 		}
 
-		await question.remove();
-		res.json({ message: 'Question removed' });
-	} catch (error) {
-		res
-			.status(400)
-			.json({ message: 'Failed to delete question', error: error.message });
-	}
-});
+		await answer.remove();
+		res.json({ message: 'Answer removed' });
+	})
+);
 
-export {
-	createQuestion,
-	getQuestions,
-	getQuestionById,
-	updateQuestion,
-	deleteQuestion,
-};
+export default router;
 
-// router
-// 	.route('/question')
-// 	.post(protect, createQuestion) // Create a new question
-// 	.get(getQuestions); // Get all questions
-
-// router
-// 	.route('/question:id')
-// 	.get(getQuestionById) // Get a single question by ID
-// 	.put(protect, updateQuestion) // Update a question
-// 	.delete(protect, deleteQuestion); // Delete a question
-
-// router.get('/:id', getQuestionById);
-// router.put('/:id', updateQuestion);
-// router.delete('/:id', deleteQuestion);
-
-// 666c2f3ced8dec89e496bb9b
+// const answer = new Answer({
+// 	content,
+// 	user: {
+// 		_id,
+// 		username,
+// 	},
+// 	question: questionId,
+// });
