@@ -104,7 +104,7 @@ const deleteQuestion = asyncHandler(async (req, res) => {
 			});
 			return;
 		}
-		await question.deleteOne(); // Corrected to properly invoke remove()
+		await question.deleteOne();
 
 		// Optionally check if question is still in database
 		const deletedQuestion = await Question.findById(req.params.id);
