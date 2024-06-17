@@ -12,17 +12,14 @@ const Paragraph = () => {
 					<p className="my-2">
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
 						mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-						voluptatum laborum numquam blanditiis.
 					</p>
 					<p>
 						Similique accusantium nemo autem. Veritatis obcaecati tenetur iure
 						eius earum ut molestias architecto voluptate aliquam nihil, eveniet
-						aliquid culpa officia aut!
 					</p>
 					<p className="my-2">
 						Eos sapiente officiis modi at sunt excepturi expedita sint? Sed
-						quibusdam recusandae alias error harum maxime adipisci amet laborum.
-						Perspiciatis minima nesciunt.
+						quibusdam recusandae alias error harum maxime
 					</p>
 				</div>
 				<div className="text-center my-3 py-3">

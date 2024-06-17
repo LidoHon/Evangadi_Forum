@@ -11,8 +11,7 @@ const NavLinks = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to manage dropdown visibility
-
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const logoutHandler = async () => {
 		try {
 			await logoutApiCall().unwrap();
@@ -24,7 +23,7 @@ const NavLinks = () => {
 	};
 
 	const toggleDropdown = () => {
-		setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown visibility
+		setIsDropdownOpen(!isDropdownOpen);
 	};
 
 	return (
@@ -45,7 +44,7 @@ const NavLinks = () => {
 					>
 						{userInfo.username}
 					</button>
-					{isDropdownOpen && ( // Render dropdown only if isDropdownOpen is true
+					{isDropdownOpen && (
 						<div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg z-20">
 							<Link
 								to="/profile"
