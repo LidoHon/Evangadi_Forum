@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/evangadi-logo-black.png';
 import { Menu, X } from 'lucide-react';
-import NavLinks from './NavLinks'; // Adjust the import path as necessary
+import NavLinks from './NavLinks';
 
 const Header = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +18,7 @@ const Header = () => {
 						<img src={logo} alt="Logo" />
 					</div>
 					<div className="ml-auto hidden md:flex justify-around pt-3 space-x-10 ">
+						{}
 						<NavLinks />
 					</div>
 					<div className="md:hidden pt-3">

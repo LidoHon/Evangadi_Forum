@@ -1,18 +1,42 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from './FormContainer';
+import { useLoginMutation } from '../slices/usersApiSlice';
+import { setCredentials } from '../slices/authSlice';
+import { toast } from 'react-toastify';
 const Login = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const [login, { isLoading, error }] = useLoginMutation();
+
+	const { userInfo } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate('/home');
+		}
+	}, [navigate, userInfo]);
+
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	};
 	const submitHandler = async (e) => {
 		e.preventDefault();
+		try {
+			const res = await login({ email, password }).unwrap();
+			dispatch(setCredentials({ ...res }));
+			navigate('/home');
+		} catch (err) {
+			toast.error('Failed to login:', err?.data?.message || err.error);
+		}
 	};
 	return (
 		<FormContainer>
