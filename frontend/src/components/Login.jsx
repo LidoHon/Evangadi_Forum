@@ -6,6 +6,7 @@ import FormContainer from './FormContainer';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
+import Spinner from './Spinners';
 const Login = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -80,6 +81,7 @@ const Login = () => {
 						)}
 					</div>
 				</div>
+				{isLoading && <Spinner />}
 				<button
 					type="submit"
 					variant="primary"

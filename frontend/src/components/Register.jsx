@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from './FormContainer';
+import { toast } from 'react-toastify';
+import Spinner from './Spinners';
+import { useRegisterMutation } from '../slices/usersApiSlice';
+import { setCredentials } from '../slices/authSlice';
 const Register = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [userName, setUserName] = useState('');
@@ -11,16 +16,47 @@ const Register = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { userInfo } = useSelector((state) => state.auth);
+	const [register, { isLoading }] = useRegisterMutation();
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate('/home');
+		}
+	}, [navigate, userInfo]);
+
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	};
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
+
+		if (password !== confirmPassword) {
+			toast.error('passwords do not match');
+		} else {
+			try {
+				const res = await register({
+					username: userName,
+					firstname: firstName,
+					lastname: lastName,
+					email,
+					password,
+				}).unwrap();
+				dispatch(setCredentials({ ...res }));
+				navigate('/home');
+			} catch (err) {
+				toast.error(err?.data?.message || err.error);
+			}
+		}
 	};
 
 	return (
-		<div className="flex flex-col justify-between p-6 bg-white shadow-lg rounded-md space-y-12 ">
-			<form className="w-full">
+		<FormContainer>
+			<form className="w-full " onSubmit={submitHandler}>
 				<h2 className="text-2xl text-center font-bold mb-4">
 					Join the network
 				</h2>
@@ -71,6 +107,8 @@ const Register = () => {
 						name="password"
 						placeholder="Password"
 						className="w-full mb-4 p-2 border rounded"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<div
 						className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -103,6 +141,7 @@ const Register = () => {
 						)}
 					</div>
 				</div>
+				{isLoading && <Spinner />}
 				<button
 					type="submit"
 					className="w-full p-2 bg-blue-500 text-white rounded"
@@ -110,7 +149,7 @@ const Register = () => {
 					Agree and Join
 				</button>
 			</form>
-		</div>
+		</FormContainer>
 	);
 };
 
