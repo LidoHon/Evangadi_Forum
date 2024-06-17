@@ -1,4 +1,3 @@
-import React from 'react';
 import Login from '../components/Login';
 import Paragraph from '../components/paragraph';
 const LoginPage = () => {

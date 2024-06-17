@@ -9,11 +9,11 @@ import MainLayout from './layouts/MainLayout';
 const App = () => {
 	return (
 		<Routes>
-			<Route path="/" element={<LandingPage />} />
+			<Route index={true} path="/" element={<LandingPage />} />
 			<Route path="/" element={<MainLayout />}>
-				<Route path="register" element={<RegisterPage />} />
-				<Route path="login" element={<LoginPage />} />
-				<Route path="home" element={<Homepage />} />
+				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/home" element={<Homepage />} />
 			</Route>
 		</Routes>
 	);

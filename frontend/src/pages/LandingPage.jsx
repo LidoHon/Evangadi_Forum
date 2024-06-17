@@ -17,37 +17,37 @@ const LandingPage = () => {
 					<div className="p-1 pt-3">
 						<img src={logo} alt="Logo" />
 					</div>
-					<nav className="ml-auto hidden md:flex justify-around pt-3 space-x-10 pt-10">
-						<ul className="flex space-x-4 text-white">
+					<nav className="ml-auto hidden md:flex justify-around pt-3 space-x-10 ">
+						<ul className="flex space-x-4 text-white pt-5">
 							<li>
 								<Link to="#" className="hover:underline">
 									Home
 								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline">
+								<Link to="#" className="hover:underline">
 									Academy
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline">
+								<Link to="#" className="hover:underline">
 									Scholarship
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline">
+								<Link to="#" className="hover:underline">
 									Immersive
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline">
+								<Link to="#" className="hover:underline">
 									Placement
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline">
+								<Link to="#" className="hover:underline">
 									Contact
-								</a>
+								</Link>
 							</li>
 						</ul>
 						<div>
@@ -73,29 +73,29 @@ const LandingPage = () => {
 								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline" onClick={toggleNavbar}>
+								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
 									Academy
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline" onClick={toggleNavbar}>
+								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
 									Scholarship
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline" onClick={toggleNavbar}>
+								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
 									Immersive
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline" onClick={toggleNavbar}>
+								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
 									Placement
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a href="#" className="hover:underline" onClick={toggleNavbar}>
+								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
 									Contact
-								</a>
+								</Link>
 							</li>
 							<li>
 								<Link to="/login" onClick={toggleNavbar}>
