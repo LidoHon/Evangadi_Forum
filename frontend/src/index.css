@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.customH {
+	height: 500px;
+}
+
+.list-container {
+	max-height: 260px; /* Set your desired maximum height */
+	overflow-y: auto; /* Enable vertical scroll bar when content exceeds the max height */
+	scroll-snap-type: none;
+}
+
+.bg {
+	background-color: rgb(59, 69, 90);
+}
+.background {
+	background-image: url('./assets//images//hammer-kid3.jpg');
+	background-size: cover;
+	background-position: center;
+}
+.background-image-class {
+	background-image: url('./assets/images/bg-svg-f.svg');
+	background-size: cover;
+	background-position: center;
+}
