@@ -24,7 +24,7 @@ const Register = () => {
 
 	useEffect(() => {
 		if (userInfo) {
-			navigate('/home');
+			navigate('/questions');
 		}
 	}, [navigate, userInfo]);
 
@@ -47,7 +47,7 @@ const Register = () => {
 					password,
 				}).unwrap();
 				dispatch(setCredentials({ ...res }));
-				navigate('/home');
+				navigate('/questions');
 			} catch (err) {
 				toast.error(err?.data?.message || err.error);
 			}

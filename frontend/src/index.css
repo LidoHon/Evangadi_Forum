@@ -25,3 +25,141 @@
 	background-size: cover;
 	background-position: center;
 }
+
+/* src/pages/QuestionsPage.css */
+
+.questions-page {
+	padding: 20px;
+}
+
+.questions-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.ask-question-button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.welcome-message {
+	font-size: 18px;
+}
+
+.questions-list {
+	list-style: none;
+	padding: 0;
+}
+
+.question-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.question-user {
+	display: flex;
+	align-items: center;
+}
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.question-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.question-link {
+	text-decoration: none;
+	font-size: 24px;
+	color: #007bff;
+}
+
+/* src/pages/QuestionDetailPage.css */
+
+.question-detail-page {
+	padding: 20px;
+}
+
+.question-detail {
+	margin-bottom: 20px;
+}
+
+.answers-section {
+	margin-bottom: 20px;
+}
+
+.answer-item {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.answer-user {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+.answer-form {
+	margin-top: 20px;
+}
+
+.answer-form textarea {
+	width: 100%;
+	height: 100px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.answer-form button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.question-user {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.avatar {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.username {
+	margin-top: 5px;
+	font-size: 14px;
+	text-align: center;
+}

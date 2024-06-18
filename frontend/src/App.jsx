@@ -1,12 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Homepage from './pages/Homepage';
 import LoginPage from './pages/Loginpage';
 import RegisterPage from './pages/RegisterPage';
 import LandingPage from './pages/LandingPage';
 import MainLayout from './layouts/MainLayout';
 import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/PrivateRoute';
+import AskQuestionsPage from './pages/AskQuestionsPage';
+import AllQuestionsPage from './pages/AllQuestionPage';
+import QuestionDetailPage from './pages/QuestionDetailsPage';
 const App = () => {
 	return (
 		<Routes>
@@ -17,8 +19,15 @@ const App = () => {
 
 				{/* private routes */}
 				<Route path="" element={<PrivateRoute />}>
-					<Route path="/home" element={<Homepage />} />
+					<Route path="/questions" element={<AllQuestionsPage />} />
 					<Route path="/profile" element={<ProfilePage />} />
+
+					<Route path="/ask-questions" element={<AskQuestionsPage />} />
+					{/* <Route
+						path="/questions/:questionId/answers"
+						element={<AnswersPage />}
+					/> */}
+					<Route path="/questions/:id" element={<QuestionDetailPage />} />
 				</Route>
 			</Route>
 		</Routes>
