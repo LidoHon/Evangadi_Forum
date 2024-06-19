@@ -42,7 +42,7 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
 			],
 		}),
 		updateQuestion: builder.mutation({
-			query: ({ id, data }) => ({
+			query: ({ id, ...data }) => ({
 				url: `${QUESTIONS_URL}/${id}`,
 				method: 'PUT',
 				body: data,

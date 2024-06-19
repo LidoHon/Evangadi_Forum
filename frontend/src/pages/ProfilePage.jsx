@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
@@ -15,7 +14,7 @@ const ProfilePage = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const { userInfo } = useSelector((state) => state.auth);

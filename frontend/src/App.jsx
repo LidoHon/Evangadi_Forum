@@ -9,6 +9,7 @@ import PrivateRoute from './components/PrivateRoute';
 import AskQuestionsPage from './pages/AskQuestionsPage';
 import AllQuestionsPage from './pages/AllQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailsPage';
+import EditQuestionPage from './pages/EditQuestionPage';
 const App = () => {
 	return (
 		<Routes>
@@ -28,6 +29,7 @@ const App = () => {
 						element={<AnswersPage />}
 					/> */}
 					<Route path="/questions/:id" element={<QuestionDetailPage />} />
+					<Route path="/edit-questions/:id" element={<EditQuestionPage />} />
 				</Route>
 			</Route>
 		</Routes>

@@ -21,7 +21,6 @@ const AllQuestionsPage = () => {
 			console.error('Error fetching questions:', error);
 		}
 	}, [isError, error]);
-	// Sort questions by creation date in descending order
 	const sortedQuestions = questions
 		? [...questions].sort(
 				(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
