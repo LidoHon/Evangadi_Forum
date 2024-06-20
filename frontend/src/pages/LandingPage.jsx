@@ -52,7 +52,7 @@ const LandingPage = () => {
 						</ul>
 						<div>
 							<Link to="/login">
-								<button className="bg-white text-black py-2 px-4 rounded">
+								<button className="bg-white text-black py-2 px-4 rounded-full">
 									Sign In
 								</button>
 							</Link>

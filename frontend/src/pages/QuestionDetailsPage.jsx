@@ -288,7 +288,7 @@ const QuestionDetailPage = () => {
 						)}
 					</div>
 					<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg">
-						<div className="flex items-center justify-center h-full">
+						<div className="flex flex-col items-center justify-center h-full">
 							<h3 className="text-lg font-bold  text-center mb-2">
 								Answer The Top Question
 							</h3>
