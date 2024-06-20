@@ -33,9 +33,12 @@ const NavLinks = () => {
 					Home
 				</p>
 			</Link>
-			<p className="text-sm font-medium mx-5 my-2 hover:text-gray-500">
+			<Link
+				to="/"
+				className="text-sm font-medium mx-5 my-2 hover:text-gray-500"
+			>
 				How it works
-			</p>
+			</Link>
 			{userInfo ? (
 				<div className="relative">
 					<button
@@ -62,9 +65,12 @@ const NavLinks = () => {
 					)}
 				</div>
 			) : (
-				<button className="text-sm cursor-pointer px-10 md:px-20 mx-5 bg-blue-600 rounded-full text-white baseline hover:bg-blue-800">
+				<Link
+					to="/login"
+					className="text-sm cursor-pointer px-5 md:px-10 pt-2 mx-2 bg-blue-600 rounded-full text-white baseline hover:bg-blue-800"
+				>
 					Login
-				</button>
+				</Link>
 			)}
 		</>
 	);

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
 	useCreateQuestionMutation,
-	useUpdateQuestionMutation,
-	useDeleteQuestionMutation,
+	// useUpdateQuestionMutation,
+	// useDeleteQuestionMutation,
 } from '../slices/questionApiSlice';
 
 const AskQuestionsPage = () => {
@@ -17,16 +17,14 @@ const AskQuestionsPage = () => {
 		e.preventDefault();
 		try {
 			const { data } = await createQuestion({ title, description });
-			console.log('Response from createQuestion:', data); // Log the response for debugging
+			console.log('Response from createQuestion:', data);
 			if (data && data._id) {
 				navigate(`/questions/${data._id}`);
 			} else {
 				console.error('Failed to get question ID from response:', data);
-				// Handle unexpected response format
 			}
 		} catch (error) {
 			console.error('Failed to create the question:', error);
-			// Handle error state
 		}
 	};
 

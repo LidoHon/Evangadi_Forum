@@ -11,6 +11,15 @@ export const answerApiSlice = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['Answer'],
 		}),
+		getAnswerById: builder.query({
+			query: ({ questionId, answerId }) => ({
+				url: `${QUESTIONS_URL}/${questionId}/answers/${answerId}`,
+				method: 'GET',
+			}),
+			providesTags: (result, error, { answerId }) => [
+				{ type: 'Answer', id: answerId },
+			],
+		}),
 		addAnswer: builder.mutation({
 			query: ({ questionId, data }) => ({
 				url: `${QUESTIONS_URL}/${questionId}/answers`,
@@ -26,7 +35,7 @@ export const answerApiSlice = apiSlice.injectEndpoints({
 				body: data,
 			}),
 			invalidatesTags: (result, error, { answerId }) => [
-				{ type: 'Answer', answerId },
+				{ type: 'Answer', id: answerId },
 			],
 		}),
 		deleteAnswer: builder.mutation({
@@ -40,6 +49,7 @@ export const answerApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+	useGetAnswerByIdQuery,
 	useGetAnswersQuery,
 	useAddAnswerMutation,
 	useUpdateAnswerMutation,

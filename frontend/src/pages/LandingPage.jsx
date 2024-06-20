@@ -13,11 +13,11 @@ const LandingPage = () => {
 	return (
 		<div className="background h-screen flex items-center justify-center">
 			<div className="container mx-auto px-4">
-				<header className=" container mx-auto fixed top-0 left-0 right-0 bg-transparent flex justify-between items-center py-4 z-50">
+				<header className="container mx-auto fixed top-0 left-0 right-0 bg-transparent flex justify-between items-center py-4 z-50">
 					<div className="p-1 pt-3">
 						<img src={logo} alt="Logo" />
 					</div>
-					<nav className="ml-auto hidden md:flex justify-around pt-3 space-x-10 ">
+					<nav className="ml-auto hidden md:flex justify-around pt-3 space-x-10">
 						<ul className="flex space-x-4 text-white pt-5">
 							<li>
 								<Link to="#" className="hover:underline">
@@ -26,7 +26,7 @@ const LandingPage = () => {
 							</li>
 							<li>
 								<Link to="#" className="hover:underline">
-									Academy
+									Student's Forum
 								</Link>
 							</li>
 							<li>
@@ -73,8 +73,12 @@ const LandingPage = () => {
 								</Link>
 							</li>
 							<li>
-								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
-									Academy
+								<Link
+									to="/register"
+									className="hover:underline"
+									onClick={toggleNavbar}
+								>
+									Student's Forum
 								</Link>
 							</li>
 							<li>
@@ -108,22 +112,22 @@ const LandingPage = () => {
 					</div>
 				)}
 				<main className="text-center mt-20">
-					<h1 className="text-5xl font-bold text-white mb-4 pt-10">
+					<h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 pt-10">
 						Bypass The Industrial,
 						<br /> Dive Into The Digital!
 					</h1>
-					<p className="text-xl text-white mb-6 pt-5">
+					<p className="text-lg md:text-xl lg:text-2xl text-white mb-6 pt-5">
 						Before us is a golden opportunity, demanding us to take a bold step
 						forward and join the new digital era.
 					</p>
 					<div className="space-x-4 pt-10">
 						<Link to="/register">
-							<button className="bg-orange-500 text-white py-2 px-6 rounded-full hover:bg-orange-600 ">
+							<button className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 md:py-3 md:px-8 lg:py-4 lg:px-10 rounded-full">
 								Create An Account
 							</button>
 						</Link>
 						<Link to="/login">
-							<button className="bg-white text-black py-2 px-6 rounded-full hover:bg-gray-200">
+							<button className="bg-white hover:bg-gray-200 text-black py-2 px-6 md:py-3 md:px-8 lg:py-4 lg:px-10 rounded-full">
 								Sign In
 							</button>
 						</Link>

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import avatar from '../assets/images/istockphoto-1300845620-612x612.jpg';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaPen, FaTrashAlt } from 'react-icons/fa';
 import {
 	useGetQuestionByIdQuery,
 	useAddAnswerMutation,
 	useDeleteQuestionMutation,
+	useUpdateQuestionMutation,
 } from '../slices/questionApiSlice';
 import {
 	useDeleteAnswerMutation,
 	useUpdateAnswerMutation,
+	useGetAnswersQuery,
 } from '../slices/answersApiSlice';
-import { useGetAnswersQuery } from '../slices/answersApiSlice';
-
+import Spinners from '../components/Spinners';
 const QuestionDetailPage = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -40,9 +41,20 @@ const QuestionDetailPage = () => {
 	const [editingAnswer, setEditingAnswer] = useState(null);
 	const [addAnswer, { isLoading: isAddingAnswer }] = useAddAnswerMutation();
 	const [deleteQuestion] = useDeleteQuestionMutation();
+	const [updateQuestionMutation] = useUpdateQuestionMutation(); // Updated
 	const [updateAnswer, { isLoading: isUpdatingAnswer }] =
 		useUpdateAnswerMutation();
 	const [deleteAnswer] = useDeleteAnswerMutation();
+	const [editMode, setEditMode] = useState(false); // State for question edit mode
+	const [updatedTitle, setUpdatedTitle] = useState('');
+	const [updatedDescription, setUpdatedDescription] = useState('');
+
+	useEffect(() => {
+		if (isQuestionSuccess && question) {
+			setUpdatedTitle(question.title);
+			setUpdatedDescription(question.description);
+		}
+	}, [isQuestionSuccess, question]);
 
 	const handleAnswerSubmit = async () => {
 		try {
@@ -63,6 +75,23 @@ const QuestionDetailPage = () => {
 			navigate('/questions');
 		} catch (error) {
 			console.error('Failed to delete question:', error);
+		}
+	};
+
+	const handleEditQuestion = async () => {
+		try {
+			const updatedData = {
+				title: updatedTitle,
+				description: updatedDescription,
+			};
+			const result = await updateQuestionMutation({
+				id,
+				...updatedData,
+			}).unwrap();
+			setEditMode(false);
+			refetchAnswers();
+		} catch (error) {
+			console.error('Failed to update question:', error);
 		}
 	};
 
@@ -93,7 +122,7 @@ const QuestionDetailPage = () => {
 		navigate('/questions');
 	};
 
-	if (isQuestionLoading || isAnswersLoading) return <p>Loading...</p>;
+	if (isQuestionLoading || isAnswersLoading) return <Spinners />;
 	if (isQuestionError) return <p>Error: {questionError.message}</p>;
 	if (isAnswersError) return <p>Error: {answersError.message}</p>;
 
@@ -108,19 +137,86 @@ const QuestionDetailPage = () => {
 			</button>
 			{isQuestionSuccess && question && (
 				<>
-					<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4">
-						<h2 className="text-2xl font-bold mb-2">{question.title}</h2>
-						<p className="text-gray-700">{question.description}</p>
-						<div className="flex justify-between mt-4">
-							<Link to={`/edit-questions/${question._id}`}>Edit Question</Link>
+					{editMode ? (
+						<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4 ">
+							<div className="flex flex-col items-center mb-2">
+								<img
+									src={avatar}
+									alt="avatar"
+									className="w-12 h-12 rounded-full object-cover mr-3"
+								/>
+								<span className="text-gray-800 mr-5">
+									{question.user.username}
+								</span>
+							</div>
+							<input
+								type="text"
+								value={updatedTitle}
+								onChange={(e) => setUpdatedTitle(e.target.value)}
+								placeholder="Title..."
+								className="w-full bg-gray-100 rounded-md px-3 py-2 mb-2"
+								required
+							/>
+							<textarea
+								value={updatedDescription}
+								onChange={(e) => setUpdatedDescription(e.target.value)}
+								placeholder="Description..."
+								className="w-full bg-gray-100 rounded-md px-3 py-2 mb-2"
+								required
+							/>
 							<button
-								onClick={handleDeleteQuestion}
-								className="text-red-500 hover:text-red-700"
+								onClick={handleEditQuestion}
+								disabled={isUpdatingAnswer}
+								className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 							>
-								Delete Question
+								{isUpdatingAnswer ? 'Updating...' : 'Update Question'}
+							</button>
+							<button
+								onClick={() => setEditMode(false)}
+								className="text-gray-500 hover:text-gray-700 ml-2"
+							>
+								Cancel
 							</button>
 						</div>
-					</div>
+					) : (
+						<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4">
+							<div className="flex items-center">
+								{/* <div className="flex flex-col items-center mr-4">
+									<img
+										src={avatar}
+										alt="avatar"
+										className="w-12 h-12 rounded-full object-cover mb-2"
+									/>
+									<span className="text-gray-800">
+										{question.user.username}
+									</span>
+								</div> */}
+								<div>
+									<h1 className="text-2xl text-center font-bold mb-2">
+										Question
+									</h1>
+									<h3 className=" font-bold mb-2">{question.title}</h3>
+									<p className="text-gray-700">{question.description}</p>
+								</div>
+							</div>
+
+							<div className="flex mt-4">
+								<button
+									onClick={() => setEditMode(true)}
+									className="text-blue-500 hover:text-blue-700 mr-2"
+								>
+									<FaPen />
+								</button>
+								<button
+									onClick={handleDeleteQuestion}
+									className="text-red-500 hover:text-red-700 ml-2 pl-10"
+								>
+									<FaTrashAlt />
+								</button>
+							</div>
+						</div>
+					)}
+
 					<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4">
 						<h3 className="text-lg font-bold mb-2">
 							Answers From The Community
@@ -141,18 +237,20 @@ const QuestionDetailPage = () => {
 										</div>
 										{userInfo && answer.user._id === userInfo._id && (
 											<>
-												<button
-													onClick={() => setEditingAnswer(answer._id)}
-													className="mt-10 text-blue-500 hover:text-blue-700 mr-2"
-												>
-													Edit
-												</button>
-												<button
-													onClick={() => handleDeleteAnswer(answer._id)}
-													className="text-red-500 hover:text-red-700"
-												>
-													Delete
-												</button>
+												<div className="flex justify-between mt-4">
+													<button
+														onClick={() => setEditingAnswer(answer._id)}
+														className="text-blue-500 hover:text-blue-700 mr-2"
+													>
+														<FaPen />
+													</button>
+													<button
+														onClick={() => handleDeleteAnswer(answer._id)}
+														className="text-red-500 hover:text-red-700 pl-2"
+													>
+														<FaTrashAlt />
+													</button>
+												</div>
 											</>
 										)}
 									</div>
@@ -190,7 +288,14 @@ const QuestionDetailPage = () => {
 						)}
 					</div>
 					<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg">
-						<h3 className="text-lg font-bold mb-2">Answer The Top Question</h3>
+						<div className="flex items-center justify-center h-full">
+							<h3 className="text-lg font-bold  text-center mb-2">
+								Answer The Top Question
+							</h3>
+							<Link className="text-sm text-center mb-2" to="/questions">
+								Go to Question page
+							</Link>
+						</div>
 						<textarea
 							value={answerText}
 							onChange={(e) => setAnswerText(e.target.value)}

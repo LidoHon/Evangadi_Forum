@@ -10,6 +10,7 @@ import AskQuestionsPage from './pages/AskQuestionsPage';
 import AllQuestionsPage from './pages/AllQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailsPage';
 import EditQuestionPage from './pages/EditQuestionPage';
+import EditAnswerPage from './pages/EditAnswerPage';
 const App = () => {
 	return (
 		<Routes>
@@ -24,12 +25,8 @@ const App = () => {
 					<Route path="/profile" element={<ProfilePage />} />
 
 					<Route path="/ask-questions" element={<AskQuestionsPage />} />
-					{/* <Route
-						path="/questions/:questionId/answers"
-						element={<AnswersPage />}
-					/> */}
+
 					<Route path="/questions/:id" element={<QuestionDetailPage />} />
-					<Route path="/edit-questions/:id" element={<EditQuestionPage />} />
 				</Route>
 			</Route>
 		</Routes>
