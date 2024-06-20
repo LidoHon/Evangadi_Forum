@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/Loginpage';
 import RegisterPage from './pages/RegisterPage';
@@ -11,7 +11,9 @@ import AllQuestionsPage from './pages/AllQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailsPage';
 import EditQuestionPage from './pages/EditQuestionPage';
 import EditAnswerPage from './pages/EditAnswerPage';
+import SavedQuestionsPage from './pages/SavedQuestionsPage';
 const App = () => {
+	const [savedQuestions, setSavedQuestions] = useState([]);
 	return (
 		<Routes>
 			<Route index={true} path="/" element={<LandingPage />} />
@@ -21,12 +23,24 @@ const App = () => {
 
 				{/* private routes */}
 				<Route path="" element={<PrivateRoute />}>
-					<Route path="/questions" element={<AllQuestionsPage />} />
+					<Route
+						path="/questions"
+						element={
+							<AllQuestionsPage
+								savedQuestions={savedQuestions}
+								setSavedQuestions={setSavedQuestions}
+							/>
+						}
+					/>
 					<Route path="/profile" element={<ProfilePage />} />
 
 					<Route path="/ask-questions" element={<AskQuestionsPage />} />
 
 					<Route path="/questions/:id" element={<QuestionDetailPage />} />
+					<Route
+						path="/saved-questions"
+						element={<SavedQuestionsPage savedQuestions={savedQuestions} />}
+					/>
 				</Route>
 			</Route>
 		</Routes>

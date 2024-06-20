@@ -7,6 +7,7 @@ const SavedQuestionsPage = ({ savedQuestions }) => {
 	return (
 		<div className="saved-questions-page p-4 flex flex-col items-center">
 			<h2 className="text-2xl font-bold mb-4">Saved Questions</h2>
+			<Link to="/questions">All questions</Link>
 			{savedQuestions.length === 0 ? (
 				<p>No saved questions yet.</p>
 			) : (

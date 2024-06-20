@@ -39,6 +39,12 @@ const NavLinks = () => {
 			>
 				How it works
 			</Link>
+			{/* <button
+				className="saved-questions-button bg-green-500 text-white px-4 py-2 mt-5 rounded hover:bg-green-600"
+				onClick={() => navigate('/saved-questions')}
+			>
+				Saved Questions
+			</button> */}
 			{userInfo ? (
 				<div className="relative">
 					<button

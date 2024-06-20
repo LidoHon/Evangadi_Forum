@@ -183,16 +183,6 @@ const QuestionDetailPage = () => {
 					) : (
 						<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4">
 							<div className="flex items-center">
-								{/* <div className="flex flex-col items-center mr-4">
-									<img
-										src={avatar}
-										alt="avatar"
-										className="w-12 h-12 rounded-full object-cover mb-2"
-									/>
-									<span className="text-gray-800">
-										{question.user.username}
-									</span>
-								</div> */}
 								<div>
 									<h1 className="text-2xl text-center font-bold mb-2">
 										Question

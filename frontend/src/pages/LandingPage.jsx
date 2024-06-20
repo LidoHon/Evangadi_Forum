@@ -25,18 +25,18 @@ const LandingPage = () => {
 								</Link>
 							</li>
 							<li>
-								<Link to="#" className="hover:underline">
+								<Link to="/register" className="hover:underline">
 									Student's Forum
 								</Link>
 							</li>
 							<li>
 								<Link to="#" className="hover:underline">
-									Scholarship
+									Library
 								</Link>
 							</li>
 							<li>
 								<Link to="#" className="hover:underline">
-									Immersive
+									Scholarship
 								</Link>
 							</li>
 							<li>
@@ -88,7 +88,7 @@ const LandingPage = () => {
 							</li>
 							<li>
 								<Link to="#" className="hover:underline" onClick={toggleNavbar}>
-									Immersive
+									Library
 								</Link>
 							</li>
 							<li>
