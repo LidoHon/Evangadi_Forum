@@ -14,14 +14,14 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
 			query: (id) => `${QUESTIONS_URL}/${id}`,
 			providesTags: (result, error, id) => [{ type: 'Question', id }],
 		}),
-		addAnswer: builder.mutation({
-			query: ({ questionId, data }) => ({
-				url: `${QUESTIONS_URL}/${questionId}/answers`,
-				method: 'POST',
-				body: data,
-			}),
-			invalidatesTags: ['Answer'],
-		}),
+		// addAnswer: builder.mutation({
+		// 	query: ({ questionId, data }) => ({
+		// 		url: `${QUESTIONS_URL}/${questionId}/answers`,
+		// 		method: 'POST',
+		// 		body: data,
+		// 	}),
+		// 	invalidatesTags: ['Answer'],
+		// }),
 
 		createQuestion: builder.mutation({
 			query: (data) => ({
@@ -31,16 +31,16 @@ export const questionsApiSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['Question'],
 		}),
-		createAnswer: builder.mutation({
-			query: ({ questionId, text }) => ({
-				url: `${QUESTIONS_URL}/${questionId}/answers`,
-				method: 'POST',
-				body: { text },
-			}),
-			invalidatesTags: (result, error, { questionId }) => [
-				{ type: 'Question', id: questionId },
-			],
-		}),
+		// createAnswer: builder.mutation({
+		// 	query: ({ questionId, text }) => ({
+		// 		url: `${QUESTIONS_URL}/${questionId}/answers`,
+		// 		method: 'POST',
+		// 		body: { text },
+		// 	}),
+		// 	invalidatesTags: (result, error, { questionId }) => [
+		// 		{ type: 'Question', id: questionId },
+		// 	],
+		// }),
 		updateQuestion: builder.mutation({
 			query: ({ id, ...data }) => ({
 				url: `${QUESTIONS_URL}/${id}`,
@@ -63,8 +63,8 @@ export const {
 	useGetQuestionsQuery,
 	useGetQuestionByIdQuery,
 	useCreateQuestionMutation,
-	useCreateAnswerMutation,
+	// useCreateAnswerMutation,
 	useUpdateQuestionMutation,
 	useDeleteQuestionMutation,
-	useAddAnswerMutation,
+	// useAddAnswerMutation,
 } = questionsApiSlice;

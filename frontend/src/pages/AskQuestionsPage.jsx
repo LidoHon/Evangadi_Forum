@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-	useCreateQuestionMutation,
-	// useUpdateQuestionMutation,
-	// useDeleteQuestionMutation,
-} from '../slices/questionApiSlice';
+import { useCreateQuestionMutation } from '../slices/questionApiSlice';
 
 const AskQuestionsPage = () => {
 	const [title, setTitle] = useState('');

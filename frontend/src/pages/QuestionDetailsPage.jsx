@@ -5,16 +5,17 @@ import avatar from '../assets/images/istockphoto-1300845620-612x612.jpg';
 import { FaArrowLeft, FaPen, FaTrashAlt } from 'react-icons/fa';
 import {
 	useGetQuestionByIdQuery,
-	useAddAnswerMutation,
 	useDeleteQuestionMutation,
 	useUpdateQuestionMutation,
 } from '../slices/questionApiSlice';
+import { useAddAnswerMutation } from '../slices/answersApiSlice';
 import {
 	useDeleteAnswerMutation,
 	useUpdateAnswerMutation,
 	useGetAnswersQuery,
 } from '../slices/answersApiSlice';
 import Spinners from '../components/Spinners';
+
 const QuestionDetailPage = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -37,15 +38,16 @@ const QuestionDetailPage = () => {
 		refetch: refetchAnswers,
 	} = useGetAnswersQuery(id);
 
-	const [answerText, setAnswerText] = useState('');
-	const [editingAnswer, setEditingAnswer] = useState(null);
 	const [addAnswer, { isLoading: isAddingAnswer }] = useAddAnswerMutation();
 	const [deleteQuestion] = useDeleteQuestionMutation();
-	const [updateQuestionMutation] = useUpdateQuestionMutation(); // Updated
+	const [updateQuestionMutation] = useUpdateQuestionMutation();
 	const [updateAnswer, { isLoading: isUpdatingAnswer }] =
 		useUpdateAnswerMutation();
 	const [deleteAnswer] = useDeleteAnswerMutation();
-	const [editMode, setEditMode] = useState(false); // State for question edit mode
+
+	const [answerText, setAnswerText] = useState('');
+	const [editingAnswer, setEditingAnswer] = useState(null);
+	const [editMode, setEditMode] = useState(false);
 	const [updatedTitle, setUpdatedTitle] = useState('');
 	const [updatedDescription, setUpdatedDescription] = useState('');
 
@@ -199,21 +201,22 @@ const QuestionDetailPage = () => {
 									<p className="text-gray-700">{question.description}</p>
 								</div>
 							</div>
-
-							<div className="flex mt-4">
-								<button
-									onClick={() => setEditMode(true)}
-									className="text-blue-500 hover:text-blue-700 mr-2"
-								>
-									<FaPen />
-								</button>
-								<button
-									onClick={handleDeleteQuestion}
-									className="text-red-500 hover:text-red-700 ml-2 pl-10"
-								>
-									<FaTrashAlt />
-								</button>
-							</div>
+							{userInfo && question.user._id === userInfo._id && (
+								<div className="flex mt-4">
+									<button
+										onClick={() => setEditMode(true)}
+										className="text-blue-500 hover:text-blue-700 mr-2"
+									>
+										<FaPen />
+									</button>
+									<button
+										onClick={handleDeleteQuestion}
+										className="text-red-500 hover:text-red-700 ml-2 pl-10"
+									>
+										<FaTrashAlt />
+									</button>
+								</div>
+							)}
 						</div>
 					)}
 
@@ -255,7 +258,7 @@ const QuestionDetailPage = () => {
 										)}
 									</div>
 									{editingAnswer === answer._id ? (
-										<div className="flex flex-col">
+										<div className="w-full max-w-5xl bg-white shadow-md p-4 rounded-lg mb-4">
 											<textarea
 												value={answerText}
 												onChange={(e) => setAnswerText(e.target.value)}

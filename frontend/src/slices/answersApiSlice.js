@@ -28,6 +28,14 @@ export const answerApiSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['Answer'],
 		}),
+		// addAnswer: builder.mutation({
+		// 	query: ({ questionId, data }) => ({
+		// 		url: `${QUESTIONS_URL}/${questionId}/answers`,
+		// 		method: 'POST',
+		// 		body: data,
+		// 	}),
+		// 	invalidatesTags: ['Answer'],
+		// }),
 		updateAnswer: builder.mutation({
 			query: ({ questionId, answerId, data }) => ({
 				url: `${QUESTIONS_URL}/${questionId}/answers/${answerId}`,
