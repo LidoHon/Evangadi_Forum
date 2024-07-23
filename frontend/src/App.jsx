@@ -10,7 +10,7 @@ import AskQuestionsPage from './pages/AskQuestionsPage';
 import AllQuestionsPage from './pages/AllQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailsPage';
 import EditQuestionPage from './pages/EditQuestionPage';
-import EditAnswerPage from './pages/EditAnswerPage';
+// import EditAnswerPage from './pages/EditAnswerPage';
 import SavedQuestionsPage from './pages/SavedQuestionsPage';
 const App = () => {
 	const [savedQuestions, setSavedQuestions] = useState([]);
