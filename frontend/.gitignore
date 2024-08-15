@@ -26,3 +26,4 @@ dist-ssr
 EditAnswerPage.jsx
 EditQuestionPage.jsx
 qaSlice.js
+.env
